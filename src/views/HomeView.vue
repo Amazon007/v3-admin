@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <div>数据： {{result}}</div>
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
@@ -9,6 +10,7 @@
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue';
 import { testApi } from '@/api/test'
+import { reactive } from 'vue';
 
 export default {
   name: 'HomeView',
@@ -16,16 +18,19 @@ export default {
     HelloWorld,
   },
   setup() {
+    const result = reactive({})
     testApi({
-      param1: 'stejr',
-      param2: 4249239
+      modules: 'statisGradeCityDetail,diseaseh5Shelf'
     }).then(res => {
       console.log(res)
+      if (res.status === 200) {
+        Object.assign(result, res.data.data)
+      }
     }).catch(err => {
       console.log(err)
     })
     return {
-      
+      result
     }
   }
 };
